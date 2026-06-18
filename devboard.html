@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevBoard</title>
+<style>
+  :root{
+    --bg:#0D1117;
+    --panel:#161B22;
+    --border:#30363D;
+    --text:#E6EDF3;
+    --muted:#6E7681;
+    --green:#39D98A;
+    --amber:#F0883E;
+    --red:#F85149;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .termbar{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 16px;
+    background:var(--panel);
+    border-bottom:1px solid var(--border);
+  }
+  .dot{width:10px;height:10px;border-radius:50%;}
+  .dot.r{background:var(--red);} .dot.y{background:var(--amber);} .dot.g{background:var(--green);}
+  .termbar span{
+    margin-left:8px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    color:var(--muted);
+  }
+  header{
+    padding:28px 20px 8px;
+    text-align:center;
+  }
+  header h1{
+    margin:0;
+    font-size:clamp(1.5rem,4vw,2.1rem);
+    letter-spacing:-0.02em;
+  }
+  header h1 .accent{color:var(--green);}
+  header p{
+    margin:6px 0 0;
+    color:var(--muted);
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+  }
+  .board{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    padding:20px;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .column{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:14px;
+    min-height:120px;
+  }
+  .col-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:12px;
+  }
+  .col-head h2{
+    font-size:14px;
+    margin:0;
+    font-family:'JetBrains Mono',monospace;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--muted);
+  }
+  .count{
+    font-family:'JetBrains Mono',monospace;
+    font-size:12px;
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:2px 8px;
+    color:var(--text);
+  }
+  .card{
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-left:3px solid var(--muted);
+    border-radius:6px;
+    padding:10px 12px;
+    margin-bottom:10px;
+  }
+  .card.high{border-left-color:var(--red);}
+  .card.mid{border-left-color:var(--amber);}
+  .card.low{border-left-color:var(--green);}
+  .card .id{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    color:var(--muted);
+  }
+  .card .title{
+    margin:4px 0 6px;
+    font-size:14px;
+    line-height:1.4;
+  }
+  .card .meta{
+    display:flex;
+    justify-content:space-between;
+    font-size:11px;
+    color:var(--muted);
+  }
+  .tag{
+    font-family:'JetBrains Mono',monospace;
+    padding:1px 6px;
+    border-radius:4px;
+    background:var(--panel);
+    border:1px solid var(--border);
+  }
+  .add-task{
+    width:100%;
+    background:transparent;
+    border:1px dashed var(--border);
+    color:var(--muted);
+    border-radius:6px;
+    padding:8px;
+    font-size:13px;
+    cursor:pointer;
+    font-family:'JetBrains Mono',monospace;
+  }
+  .add-task:hover{border-color:var(--green);color:var(--green);}
+  .add-task:focus-visible, button:focus-visible{outline:2px solid var(--green); outline-offset:2px;}
+
+  @media (max-width:760px){
+    .board{grid-template-columns:1fr;}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .card{transition:transform .15s ease, border-color .15s ease;}
+    .card:hover{transform:translateY(-2px);border-color:var(--muted);}
+  }
+</style>
+</head>
+<body>
+
+<div class="termbar">
+  <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+  <span>devboard ~ task-tracker</span>
+</div>
+
+<header>
+  <h1>Dev<span class="accent">Board</span></h1>
+  <p>// track what ships</p>
+</header>
+
+<main class="board">
+
+  <section class="column" aria-label="To Do">
+    <div class="col-head"><h2>To Do</h2><span class="count">3</span></div>
+
+    <article class="card high">
+      <div class="id">#a3f9c1</div>
+      <p class="title">Fix race condition in payment webhook handler</p>
+      <div class="meta"><span class="tag">backend</span><span>P. Singh</span></div>
+    </article>
+
+    <article class="card mid">
+      <div class="id">#7e21bd</div>
+      <p class="title">Add dark mode toggle to settings page</p>
+      <div class="meta"><span class="tag">frontend</span><span>A. Khan</span></div>
+    </article>
+
+    <article class="card low">
+      <div class="id">#0c44f2</div>
+      <p class="title">Write unit tests for auth middleware</p>
+      <div class="meta"><span class="tag">testing</span><span>R. Mehta</span></div>
+    </article>
+
+    <button class="add-task">+ add task</button>
+  </section>
+
+  <section class="column" aria-label="In Progress">
+    <div class="col-head"><h2>In Progress</h2><span class="count">2</span></div>
+
+    <article class="card high">
+      <div class="id">#9b18aa</div>
+      <p class="title">Migrate Jenkins pipeline to declarative syntax</p>
+      <div class="meta"><span class="tag">devops</span><span>S. Patel</span></div>
+    </article>
+
+    <article class="card mid">
+      <div class="id">#5f33dc</div>
+      <p class="title">Optimize Docker image build time</p>
+      <div class="meta"><span class="tag">devops</span><span>P. Singh</span></div>
+    </article>
+
+    <button class="add-task">+ add task</button>
+  </section>
+
+  <section class="column" aria-label="Done">
+    <div class="col-head"><h2>Done</h2><span class="count">2</span></div>
+
+    <article class="card low">
+      <div class="id">#2d76e9</div>
+      <p class="title">Set up branch protection rules on main</p>
+      <div class="meta"><span class="tag">git</span><span>A. Khan</span></div>
+    </article>
+
+    <article class="card low">
+      <div class="id">#bf04c8</div>
+      <p class="title">Resolve merge conflict in release branch</p>
+      <div class="meta"><span class="tag">git</span><span>R. Mehta</span></div>
+    </article>
+
+    <button class="add-task">+ add task</button>
+  </section>
+
+</main>
+
+</body>
+</html>
